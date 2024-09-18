@@ -1,11 +1,6 @@
-import { Header } from "@/components/Header";
+import HomePage from "@/components/page/HomePage";
+import { mockdata } from "@/mock/mockdata";
 
 export default function Home() {
-  return (
-    <div>
-      <div className="container flex justify-center ">
-        <Header />
-      </div>
-    </div>
-  );
+  return <HomePage />;
 }
