@@ -7,16 +7,17 @@ import { useState } from "react";
 
 export const Header = () => {
   const [searchValue, setSearchValue] = useState("");
+  const [searchedValue, setSearchedValue] = useState("");
   const filteredData = mockdata.filter((data) =>
-    data?.City.toLowerCase().includes(searchValue)
+    data?.City.toLowerCase().includes(searchValue, searchedValue)
   );
-  const filteredDataTitle = mockdata.filter((data) =>
-    data.title.toLowerCase().includes(searchValue)
-  );
+
   const handleInputChange = (event) => {
+    setIsOpen(true);
     const searchString = event.target.value;
     setSearchValue(searchString.trim().toLowerCase());
   };
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="container h-[106px] flex items-center ">
       <div className="flex items-center gap-28">
@@ -32,18 +33,29 @@ export const Header = () => {
             <option value="rent">Rent</option>
             <option value="sell">Sell</option>
           </select>
-          <input
-            onChange={handleInputChange}
-            className="border-t pl-4 border-b outline-none w-[400px] "
-            placeholder="Search"
-            type="text"
-          />
-          {filteredData.map((data) => {
-            return <div>{data.City}</div>;
-          })}
-          {filteredDataTitle.map((data) => {
-            return <div>{data.title}</div>;
-          })}
+          <div className="flex flex-col  ">
+            <div>
+              <input
+                onChange={handleInputChange}
+                className="border-t pl-4 border-b outline-none h-[62px] w-[400px] "
+                placeholder="Search"
+                type="text"
+              />
+            </div>
+            <div className={`${isOpen ? "h-[200px]" : "h-0"}`}>
+              {searchValue &&
+                filteredData.map((data) => {
+                  return (
+                    <div
+                      className="flex w-[130px] h-[32px] border "
+                      key={data.id}
+                    >
+                      {data.City}
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
 
           <div className="bg-[#5E81F4] rounded-r-lg flex justify-center items-center w-[62px] ">
             <SearchIcon />
